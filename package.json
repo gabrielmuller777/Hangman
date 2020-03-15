@@ -4,7 +4,7 @@
   "description": "Vue + Db2 test",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "concurrently \"npm run dev\" \"cd ./client && npm run serve",
     "dev": "nodemon server/index.js"
   },
   "author": "Fernando Itami",
@@ -12,6 +12,7 @@
   "dependencies": {
     "bindings": "^1.5.0",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "ibm_db": "^2.6.4"

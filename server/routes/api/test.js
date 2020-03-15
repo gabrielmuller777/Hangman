@@ -1,5 +1,4 @@
 var ibmdb = require('ibm_db')
-
 function retrieveData(callback) {
 
     var result = []
@@ -9,7 +8,7 @@ function retrieveData(callback) {
             console.log(err)
             callback()
         }
-        conn.query(`select * from pck31813.vuetest fetch first 5 rows only`, function (err, data) {
+        conn.query(`select * from pck31813.vuetest where "first_name" like 'Br%'`, function (err, data) {
             if (err) { console.log(err) }
             else {
                 result.push(data)
@@ -18,7 +17,7 @@ function retrieveData(callback) {
                 }
             }
             conn.close(function () {
-                console.log('done')
+                console.log('updated')
             })
         })
     })

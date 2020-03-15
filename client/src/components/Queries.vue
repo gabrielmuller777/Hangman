@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Logs</h1>
-    <input id="sqlInput" type="text" v-model="text" placeholder="Search..." />
+    <input id="sqlInput" type="text" v-model="text" placeholder="Search..." v-on:keyup.enter="getQuery" />
     <button @click="getQuery">Send</button>
     <ul v-for="log in logs" :key="log">
       <li>
@@ -41,6 +41,7 @@ export default {
       } catch (err) {
         this.error = err;
       }
+      this.text = ''
     }
   }
 };

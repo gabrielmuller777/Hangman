@@ -4,9 +4,10 @@ const router = express.Router();
 //Get
 router.get('/', (req, res) => {
     var ibmdb = require('ibm_db')
-    var string = req.query[0]
-    var sql = `select * from pck31813.vuetest where "first_name" like '${string}'`
-    var result = []
+    var lower = req.query[0].toString()
+    var upper = lower.charAt(0).toUpperCase() + lower.slice(1)
+    var allUp = lower.toUpperCase()
+    var sql = `select * from pck31813.vuetest where "first_name" like '${upper}%' or "first_name" like '${lower}%' or "first_name" like '${allUp}%'`
     ibmdb.open("DRIVER={DB2};DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-dal09-04.services.dal.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=pck31813;PWD=b7nds9fm^dktd27p", function (err, conn) {
 
         if (err) {

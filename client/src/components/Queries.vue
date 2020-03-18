@@ -2,9 +2,9 @@
   <div>
     <h1>Logs</h1>
     <cv-dropdown style="width:200px; margin:20px auto 20px auto" placeholder="select client" :value="value" v-model="client">
-      <cv-dropdown-item value="IGA">IGA</cv-dropdown-item>
-      <cv-dropdown-item value="DELTA">Delta</cv-dropdown-item>
-      <cv-dropdown-item value="BNC">BNC</cv-dropdown-item>
+      <span v-for="(name,index) in clientList" :key="index">
+      <cv-dropdown-item :value="name">{{name}}</cv-dropdown-item>
+      </span>
     </cv-dropdown>
     <button @click="getQuery">Go Horse</button>
     <div class="listArea">
@@ -35,7 +35,10 @@ export default {
       logs: [],
       error: "",
       client: "",
-      value: ''
+      value: '',
+      clientList: [
+        'IGA', 'BNC', 'DELTA'
+      ]
     };
   },
   methods: {

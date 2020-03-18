@@ -7,23 +7,22 @@
       <cv-dropdown-item value="BNC">BNC</cv-dropdown-item>
     </cv-dropdown>
     <button @click="getQuery">Go Horse</button>
-    <ul v-for="(log, index) in logs" :key="index">
-      <li>
-        <p class="sep"></p>
-        <p>
-          <label>Customer:</label>
-          {{log.Customer}}
-        </p>
-        <p>
-          <label>Summary:</label>
-          {{log.Summary}}
-        </p>
-        <p>
-          <label>Problem Description:</label>
-          {{log.Problem_Description}}
-        </p>
-      </li>
-    </ul>
+    <div class="listArea">
+    <cv-structured-list v-for="(log, index) in logs" :key="index">
+      <template slot="headings">
+        <cv-structured-list-heading style="width: 10%">Customer</cv-structured-list-heading>
+        <cv-structured-list-heading style="width: 30%">Summary</cv-structured-list-heading>
+        <cv-structured-list-heading>Problem Description</cv-structured-list-heading>
+      </template>
+      <template slot="items">
+        <cv-structured-list-item style="textAlign:left">
+        <cv-structured-list-data>{{log.Customer}}</cv-structured-list-data>
+        <cv-structured-list-data>{{log.Summary}}</cv-structured-list-data>
+        <cv-structured-list-data>{{log.Problem_Description}}</cv-structured-list-data>
+      </cv-structured-list-item>
+      </template>
+    </cv-structured-list>
+    </div>
   </div>
 </template>
 
@@ -67,9 +66,12 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-label {
-  color: #42b983;
-  font-size: 20px;
+.customer {
+  background-color: rgb(228, 228, 228);
+}
+.listArea {
+  width: 80%;
+  margin: auto;
 }
 .sep {
   background-color: #42b983;

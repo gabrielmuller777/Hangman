@@ -4,10 +4,10 @@ const url = 'http://localhost:3000/api/queries'
 
 class queryService {
     //Get
-    static getData(text) {
+    static getData(client) {
         return new Promise ((resolve,reject) => {
             axios.get(url, {
-                params: text
+                params: client
             }).then((res) => {
                 const data = res.data;
                 resolve(

@@ -1,22 +1,26 @@
 <template>
   <div>
     <h1>Logs</h1>
-    <input id="sqlInput" type="text" v-model="text" placeholder="Search..." v-on:keyup.enter="getQuery" />
-    <button @click="getQuery">Send</button>
-    <ul v-for="log in logs" :key="log">
+    <cv-dropdown style="width:200px; margin:20px auto 20px auto" placeholder="select client" :value="value" v-model="client">
+      <cv-dropdown-item value="IGA">IGA</cv-dropdown-item>
+      <cv-dropdown-item value="DELTA">Delta</cv-dropdown-item>
+      <cv-dropdown-item value="BNC">BNC</cv-dropdown-item>
+    </cv-dropdown>
+    <button @click="getQuery">Go Horse</button>
+    <ul v-for="(log, index) in logs" :key="index">
       <li>
         <p class="sep"></p>
         <p>
-          <label>Name:</label>
-          {{log.first_name + ' ' + log.last_name}}
+          <label>Customer:</label>
+          {{log.Customer}}
         </p>
         <p>
-          <label>Company:</label>
-          {{log.company_name}}
+          <label>Summary:</label>
+          {{log.Summary}}
         </p>
         <p>
-          <label>State:</label>
-          {{log.state}}
+          <label>Problem Description:</label>
+          {{log.Problem_Description}}
         </p>
       </li>
     </ul>
@@ -31,17 +35,20 @@ export default {
     return {
       logs: [],
       error: "",
-      text: ""
+      client: "",
+      value: ''
     };
   },
   methods: {
+    test() {
+      console.log(this.client)
+    },
     async getQuery() {
       try {
-        this.logs = await queryService.getData(this.text);
+        this.logs = await queryService.getData(this.client);
       } catch (err) {
         this.error = err;
       }
-      this.text = ''
     }
   }
 };
@@ -64,14 +71,10 @@ label {
   color: #42b983;
   font-size: 20px;
 }
-#sqlInput {
-  width: 200px;
-  margin-right: 20px;
-}
 .sep {
   background-color: #42b983;
   height: 1px;
   width: 100px;
-  margin: auto;
+  margin: 20px auto 20px auto;
 }
 </style>

@@ -4,10 +4,7 @@ const router = express.Router();
 //Get
 router.get('/', (req, res) => {
     var ibmdb = require('ibm_db')
-    var lower = req.query[0].toString()
-    var upper = lower.charAt(0).toUpperCase() + lower.slice(1)
-    var allUp = lower.toUpperCase()
-    var sql = `select * from mwx86642.testex where "Customer" like '${upper}%' or "Customer" like '${lower}%' or "Customer" like '${allUp}%'`
+    var sql = req.query[0]
     ibmdb.open("DRIVER={DB2};DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-dal09-04.services.dal.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=mwx86642;PWD=nt6snmxdsqt8-z9v", function (err, conn) {
 
         if (err) {

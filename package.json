@@ -7,7 +7,7 @@
     "start": "concurrently \"npm run dev\" \"cd ./client && npm run serve\"",
     "dev": "nodemon server/index.js"
   },
-  "author": "Fernando Itami",
+  "author": "Gabriel Ceolato Muller",
   "license": "MIT",
   "dependencies": {
     "bindings": "^1.5.0",

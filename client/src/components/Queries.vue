@@ -3,6 +3,7 @@
     <div class="navbar">
       <img src="../assets/logo.png" alt="logo" style="height:25px">
         <label class="navLabel">TechLogR</label>
+        <a href="">DEV Toucans</a>
     </div>
     <div class="searchBar">
       <cv-dropdown class="drop" size="40px" placeholder="select client" :value="value" v-model="client">
@@ -10,7 +11,7 @@
         <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
         </span>
       </cv-dropdown>
-      <input class="txtinput" placeholder="Search..." />
+      <input class="txtinput" placeholder="Search..." v-model="keyword"/>
       <button class="srcbtn" @click="getQuery">Search</button>
     </div>
     <div class="listArea">
@@ -45,7 +46,8 @@ export default {
       value: '',
       clientList: [],
       isActive: false,
-      dropload: true
+      dropload: true,
+      keyword: "",
     };
   },
   async created() {
@@ -63,7 +65,7 @@ export default {
   methods: {
     async getQuery() {
       this.isActive=true
-      var sql = `select * from mwx86642.gendata where "Customer" like '${this.client}'`
+      var sql = `select * from mwx86642.gendata where "Customer" like '${this.client}' AND "Solution" like '%${this.keyword}%'`
       try {
         this.logs = await queryService.getData(sql);
         this.isActive=false

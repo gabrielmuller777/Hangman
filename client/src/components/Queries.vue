@@ -5,7 +5,19 @@
         <label class="navLabel">TechLogR</label>
         <a href="">DEV Toucans</a>
     </div>
+            <div class="tabs_comp">              
+              <cv-tabs
+                  :container="container">
+                  <cv-tab id="tab-1" label="Tab link 1">
+                    Sample tab panel content 1
+                  </cv-tab>
+                  <cv-tab id="tab-2" label="Tab link 2" >
+                    sdsad
+                  </cv-tab>
+                  </cv-tabs>           
+             </div>
     <div class="searchBar">
+
       <cv-dropdown class="drop" size="40px" placeholder="select client" :value="value" v-model="client">
         <span v-for="(name,index) in clientList" :key="index">
         <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
@@ -31,12 +43,16 @@
     </cv-structured-list>
     </div>
     <cv-loading :active="isActive" overlay></cv-loading>
-  </div>
+</div>
 </template>
 
 <script>
 import queryService from "../queryService";
+//import Insert from "../components/Insert.vue";
 export default {
+  components: {
+    //Insert
+  },
   name: "Queries",
   data() {
     return {
@@ -109,6 +125,14 @@ h1 {
   display: flex;
   max-width: 1400px;
   max-height: 40px;
+  margin: 10px auto 10px auto;
+  padding: 0 0 0 0;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.tabs_comp {
+  display: flex;
+  max-width: 1400px;
   margin: 10px auto 10px auto;
   padding: 0 0 0 0;
   align-items: flex-end;

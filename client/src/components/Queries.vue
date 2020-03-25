@@ -5,17 +5,6 @@
         <label class="navLabel">TechLogR</label>
         <a href="">DEV Toucans</a>
     </div>
-            <div class="tabs_comp">              
-              <cv-tabs
-                  :container="container">
-                  <cv-tab id="tab-1" label="Tab link 1">
-                    Sample tab panel content 1
-                  </cv-tab>
-                  <cv-tab id="tab-2" label="Tab link 2" >
-                    sdsad
-                  </cv-tab>
-                  </cv-tabs>           
-             </div>
     <div class="searchBar">
 
       <cv-dropdown class="drop" size="40px" placeholder="select client" :value="value" v-model="client">
@@ -133,7 +122,7 @@ h1 {
 .tabs_comp {
   display: flex;
   max-width: 1400px;
-  margin: 10px auto 10px auto;
+  margin: auto;
   padding: 0 0 0 0;
   align-items: flex-end;
   justify-content: flex-start;

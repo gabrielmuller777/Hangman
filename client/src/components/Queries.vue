@@ -1,9 +1,21 @@
 <template>
   <div>
     <div class="navbar">
-      <img src="../assets/logo.png" alt="logo" style="height:25px">
-        <label class="navLabel">TechLogR</label>
-        <a href="">DEV Toucans</a>
+            <cv-header aria-label="Carbon tutorial">
+    <cv-skip-to-content href="#main-content"
+      >Skip to content</cv-skip-to-content
+    >
+    <cv-header-name href="/">Search</cv-header-name>
+    <cv-header-nav>
+      <cv-header-menu-item href="/Insert">Insert</cv-header-menu-item>
+    </cv-header-nav>
+    <div class="header-right">
+    <template slot="header-global" />
+          <img class="logo" src="../assets/logo.svg" alt="logo">
+        <a class="navLabel">TechLogR</a>
+     </div>
+  </cv-header>
+
     </div>
     <div class="searchBar">
 
@@ -95,13 +107,21 @@ h1 {
 }
 .navbar {
   display: flex;
-  background-color: white;
   height: 45px;
   padding-left: 20px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+.header-right{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 45px;
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  float: right;
+  flex: 1 1;
+  margin-right: 2rem;
+
 }
 .navLabel {
   font-size: 16px;
@@ -126,6 +146,7 @@ h1 {
   padding: 0 0 0 0;
   align-items: flex-end;
   justify-content: flex-start;
+  align-items: center;
 }
 .drop {
   max-width: 200px !important;
@@ -159,6 +180,11 @@ h1 {
 .listArea {
   width: 1400px;
   margin: auto;
+}
+
+.logo{
+  height: 25px;
+  fill: #ffffff;
 }
 
 </style>

@@ -11,8 +11,9 @@
     </cv-header-nav>
     <div class="header-right">
     <template slot="header-global" />
+            <a class="navLabel" style="margin-right:20px"> TechLogR</a>
+
           <img class="logo" src="../assets/logo.svg" alt="logo">
-        <a class="navLabel">TechLogR</a>
      </div>
   </cv-header>
 
@@ -124,11 +125,11 @@ h1 {
 
 }
 .navLabel {
-  font-size: 16px;
-  height: 32px;
+  font-size: 1rem;
   text-align: center;
   padding: 8px 0 8px 0;
   margin-left: 20px;
+  color: #f7f3f2
 }
 .searchBar {
   display: flex;

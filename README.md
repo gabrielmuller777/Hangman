@@ -1,2 +1,2 @@
-# gabrielmuller777
+# Hangman
 hangman game

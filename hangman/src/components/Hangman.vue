@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>teste</h1>
+  <div class="gamearea">
+    <span class="word">{{word}}</span>
   </div>
 </template>
 
@@ -8,6 +8,7 @@
 export default {
   data() {
     return {
+      word: 'banana'
       
     }
   }
@@ -15,5 +16,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .word{
+    font-size: 50px;
+  }
+  .gamearea {
+    height: 90%;
+  }
 </style>

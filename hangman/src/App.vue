@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <label class="title">HANGMAN</label>
+    <img src="./assets/bm_logo.png" alt="logo">
+    <p><label class="title">HANGMAN</label></p>
     <Hangman/>
   </div>
 </template>
@@ -23,15 +24,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: white;
+  height: 100%;
 }
 html{
   width: 100%;
+  height: 100%;
   background-color: black;
 }
 body{
-  width: 70%;
+  min-width: 90%;
+  min-height: 95%;
   background-color: rgb(70, 70, 70);
-  margin: 20px auto 0 auto;
+  margin: 10 10 10 10;
 }
 .title {
   font-size: 50px;

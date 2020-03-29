@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/bm_logo.png" alt="logo">
+    <img src="./assets/bm_logo.png" alt="logo" style="height: 80px">
     <p><label class="title">HANGMAN</label></p>
     <Hangman/>
   </div>

@@ -16,7 +16,7 @@
       <img v-if="life == 2" class="stick" src="../assets/s2.png" alt="sm" />
       <img v-if="life == 1" class="stick" src="../assets/s1.png" alt="sm" />
       <h1>Body Parts: {{ life }}</h1>
-      <div v-if="!gameOver && !player1" style="margin-bottom:20px">
+      <div v-if="!gameOver && !player1 && !win" style="margin-bottom:20px">
         <span v-for="(char, index) in word" :key="index">
           <span class="word">{{ char }} </span>
         </span>
@@ -29,13 +29,15 @@
         </p>
         <button @click="retry">Retry</button>
       </div>
-      <div>
-        
+      <div v-if="win">
+        <label>You Win...</label>
+        <p><label>Hope you die the next time!</label></p>
+        <button @click="retry">Reset</button>
       </div>
     </span>
 
     <!-- Player 2 -->
-    <div v-if="!player1 && !gameOver">
+    <div v-if="!player1 && !gameOver && !win">
       <label>Player 2</label>
       <p>
         <label>Hint: {{ hint }}</label>
@@ -56,6 +58,7 @@ export default {
       guess: "",
       life: 5,
       gameOver: false,
+      win: false,
       player1: true
     };
   },
@@ -86,8 +89,10 @@ export default {
     }
   },
   updated() {
-    if (this.life === 0) {
-      this.gameOver = true;
+    if (!this.word.includes('_') && !this.player1) {
+      this.win = true;
+    } else if (this.life === 0) {
+      this.gameOver = true
     }
   }
 };

@@ -1,5 +1,14 @@
 <template>
   <div class="gamearea">
+    <!-- Player 1 screen -->
+    <div class="playerInput" v-if="player1">
+      <label>Player 1</label>
+      <label>Input word </label><input type="text" v-model="input" />
+      <label>Hint </label><input type="text" v-model="hint" />
+      <button @click="start">START</button>
+    </div>
+
+    <!-- end Player 1 area -->
     <span v-if="!player1">
       <img v-if="life == 5" class="stick" src="../assets/s5.png" alt="sm" />
       <img v-if="life == 4" class="stick" src="../assets/s4.png" alt="sm" />
@@ -12,6 +21,7 @@
           <span class="word">{{ char }} </span>
         </span>
       </div>
+      <!-- GAME OVER -->
       <div v-if="gameOver">
         <p><label>SE FUDEU! </label></p>
         <p>
@@ -19,13 +29,12 @@
         </p>
         <button @click="retry">Retry</button>
       </div>
+      <div>
+        
+      </div>
     </span>
-    <div v-if="player1">
-      <label>Player 1</label>
-      <p><label>Input word </label><input type="text" v-model="input" /></p>
-      <p><label>Hint </label><input type="text" v-model="hint" /></p>
-      <p><button @click="start">START</button></p>
-    </div>
+
+    <!-- Player 2 -->
     <div v-if="!player1 && !gameOver">
       <label>Player 2</label>
       <p>
@@ -73,7 +82,7 @@ export default {
           this.word.push("_");
         }
       }
-      this.player1 = false
+      this.player1 = false;
     }
   },
   updated() {
@@ -90,6 +99,35 @@ export default {
 }
 .gamearea {
   height: 90%;
+}
+.playerInput {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 250px;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+}
+button {
+  border: none;
+  height: 35px;
+  font-size: 20px;
+  background-color: brown;
+  color: white;
+}
+input {
+  height: 30px;
+  font-size: 20px;
+  background-color: rgba(255, 255, 255, 0.103);
+  color: white;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid brown;
+}
+label {
+  font-size: 20px;
+  color: white;
 }
 .stick {
   height: 200px;

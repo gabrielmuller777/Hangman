@@ -36,6 +36,7 @@ body{
   min-height: 95%;
   background-color: rgb(70, 70, 70);
   margin: 10 10 10 10;
+  padding-top: 50px;
 }
 .title {
   font-size: 50px;

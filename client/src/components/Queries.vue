@@ -3,7 +3,7 @@
     <div class="navbar">
         <span class="linkBox"><router-link class="routes" :to="{name: 'Search'}">Search</router-link></span>
         <span class="linkBox"><router-link class="routes" :to="{name: 'Insert'}">Insert</router-link></span>
-        <span class="linkBox"><router-link class="routes" :to="{name: 'SQLSearch'}">SQLSearch</router-link></span>
+        <span class="linkBox"><router-link class="routes" :to="{name: 'SQLSearch'}">SQL</router-link></span>
 
 
                     <div class="header-right">
@@ -48,7 +48,9 @@ h1 {
   background-color: #ffffff;
   height: 45px;
   padding-left: 20px;
-  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 .header-right{
@@ -127,16 +129,23 @@ h1 {
 }
 
 .linkBox {
-  height: 45px;
-  width: 90px;
+  height: 43px;
+  width: 80px;
   text-align: center;
-  padding: 15px;
+  padding: 14px;
   color: black;
+  transition: border-width 0.2 ease-in-out !important;
+  border-bottom: 0px;
 }
 
 .linkBox:hover{
-  border-bottom: 3px solid #0F62FE;
-  transition: 0.6;
+  border-bottom: 4px solid #0F62FE;
   color: #0F62FE;
+}
+
+.routes{
+  font-size: 16px;
+  text-decoration: none;
+  color: inherit;
 }
 </style>

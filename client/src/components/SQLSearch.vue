@@ -46,7 +46,7 @@ export default {
   methods: {
     async getQuery() {
       this.isActive=true
-      var sql = `'${this.keyword}'`
+      var sql = `${this.keyword}`
       try {
         this.logs = await queryService.getData(sql);
         this.isActive=false
@@ -119,9 +119,9 @@ h1 {
   margin: 0 0 0 0 !important;
 }
 .txtinput {
-  max-width: 200px !important;
+  width: 500px !important;
   height: 40px !important;
-  margin: 0 0 0 20px !important;
+  margin: 0 0 0 0px !important;
   border: none;
   background-color: #f7f3f2;
   font-size: 15px !important;

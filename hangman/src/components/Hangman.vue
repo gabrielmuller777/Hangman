@@ -1,11 +1,12 @@
 <template>
-  <div class="gamearea">
+  <div id="gamearea">
     <!-- Player 1 screen -->
     <div class="playerInput" v-if="player1">
       <label>Player 1</label>
       <label>Input word </label><input type="text" v-model="input" />
       <label>Hint </label><input type="text" v-model="hint" />
-      <button @click="start">START</button>
+      
+      <v-btn small @click="start" color="error">START</v-btn>
     </div>
 
     <!-- end Player 1 area -->
@@ -85,7 +86,11 @@ export default {
           this.word.push("_");
         }
       }
-      this.player1 = false;
+      if(this.input === '') {
+        alert('please type something you idiot!')
+      }else {
+        this.player1 = false;
+      }
     }
   },
   updated() {
@@ -102,8 +107,9 @@ export default {
 .word {
   font-size: 50px;
 }
-.gamearea {
-  height: 90%;
+#gamearea{
+  max-height: 400px !important;
+  background-color: black ;
 }
 .playerInput {
   display: flex;
@@ -114,17 +120,10 @@ export default {
   justify-content: space-between;
   margin: auto;
 }
-button {
-  border: none;
-  height: 35px;
-  font-size: 20px;
-  background-color: brown;
-  color: white;
-}
 input {
   height: 30px;
   font-size: 20px;
-  background-color: rgba(255, 255, 255, 0.103);
+  background-color: rgba(255, 255, 255, 0.2);
   color: white;
   text-align: center;
   border: none;

@@ -1,16 +1,16 @@
 <template>
 <div>
     <div class="navbar">
+      <div class="linksnav">
         <span class="linkBox"><router-link class="routes" :to="{name: 'Search'}">Search</router-link></span>
         <span class="linkBox"><router-link class="routes" :to="{name: 'Insert'}">Insert</router-link></span>
         <span class="linkBox"><router-link class="routes" :to="{name: 'SQLSearch'}">SQL</router-link></span>
-
-
-                    <div class="header-right">
-                            <template slot="header-global" />
-                            <a class="navLabel" style="margin-right:20px"> TechLogR</a>
-                            <img class="logo" src="../assets/logo.svg" alt="logo">
-                    </div>
+      </div>
+      <div class="header-right">
+        <template slot="header-global" />
+        <a class="navLabel" style="margin-right:20px"> TechLogR</a>
+        <img class="logo" src="../assets/logo.svg" alt="logo">
+      </div>
     </div>
 </div>
 </template>
@@ -35,9 +35,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 a {
-  text-decoration: none;
   font-size: 16px;
-  margin-left: 20px;
+  margin: auto;
 }
 h1 {
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -134,12 +133,15 @@ h1 {
   text-align: center;
   padding: 14px;
   color: black;
-  transition: border-width 0.2 ease-in-out !important;
   border-bottom: 0px;
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+  display: inline-block;
 }
 
 .linkBox:hover{
   border-bottom: 4px solid #0F62FE;
+  transition: border-width 0.2 ease-in-out !important;
   color: #0F62FE;
 }
 
@@ -147,5 +149,11 @@ h1 {
   font-size: 16px;
   text-decoration: none;
   color: inherit;
+}
+
+.linksnav{
+  width: 720px;
+  height: 45px;
+  display: flex;
 }
 </style>

@@ -15,7 +15,8 @@
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "ibm_db": "^2.6.4"
+    "ibm_db": "^2.6.4",
+    "vue-router": "^3.1.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

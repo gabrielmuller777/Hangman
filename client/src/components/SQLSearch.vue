@@ -1,34 +1,60 @@
 <template>
 <div>
-    <div class="navbar">
-        <span class="linkBox"><router-link class="routes" :to="{name: 'Search'}">Search</router-link></span>
-        <span class="linkBox"><router-link class="routes" :to="{name: 'Insert'}">Insert</router-link></span>
-        <span class="linkBox"><router-link class="routes" :to="{name: 'SQLSearch'}">SQLSearch</router-link></span>
-
-
-                    <div class="header-right">
-                            <template slot="header-global" />
-                            <a class="navLabel" style="margin-right:20px"> TechLogR</a>
-                            <img class="logo" src="../assets/logo.svg" alt="logo">
-                    </div>
+    <div class="searchBar">
+        <input class="txtinput" placeholder="Type your SQL query" v-model="keyword"/>
+        <button class="srcbtn" @click="getQuery">Run Query</button>
     </div>
+    <div class="listArea">
+            <cv-structured-list>
+            <template slot="headings">
+                <cv-structured-list-heading style="width: 150px; backgroundColor:rgb(221,225,230)">Date</cv-structured-list-heading>
+                <cv-structured-list-heading style="width: 900px; backgroundColor:rgb(221,225,230)">Problem Description</cv-structured-list-heading>
+                <cv-structured-list-heading style="width: 250px; backgroundColor:rgb(221,225,230)">Solution</cv-structured-list-heading>
+            </template>
+            <template slot="items" >
+                <cv-structured-list-item style="textAlign:left" v-for="(log, index) in logs" :key="index">
+                <cv-structured-list-data style="backgroundColor:rgb(242,244,248)">{{log.Date}}</cv-structured-list-data>
+                <cv-structured-list-data style="backgroundColor:rgb(242,244,248)">{{log.Problem_Description}}</cv-structured-list-data>
+                <cv-structured-list-data style="backgroundColor:rgb(242,244,248)">{{log.Solution}}</cv-structured-list-data>
+            </cv-structured-list-item>
+            </template>
+            </cv-structured-list>
+    </div>
+        <cv-loading :active="isActive" overlay></cv-loading>
 </div>
 </template>
-
 <script>
+import queryService from "../queryService";
 
 export default {
   components: {
-
+      
   },
-  name: "Queries",
+  name: "SQLSearch",
   data() {
     return {
-      
+      logs: [],
+      error: "",
+      client: "",
+      value: '',
+      clientList: [],
+      isActive: false,
+      dropload: true,
+      keyword: "",
     };
   },
-  
-  
+  methods: {
+    async getQuery() {
+      this.isActive=true
+      var sql = `'${this.keyword}'`
+      try {
+        this.logs = await queryService.getData(sql);
+        this.isActive=false
+      } catch (err) {
+        this.error = err;
+      }
+    }
+  }
 };
 </script>
 
@@ -45,7 +71,6 @@ h1 {
 }
 .navbar {
   display: flex;
-  background-color: #ffffff;
   height: 45px;
   padding-left: 20px;
   justify-content: flex-end;
@@ -67,7 +92,7 @@ h1 {
   text-align: center;
   padding: 8px 0 8px 0;
   margin-left: 20px;
-  color: black;
+  color: #f7f3f2
 }
 .searchBar {
   display: flex;
@@ -126,17 +151,5 @@ h1 {
   fill: #ffffff;
 }
 
-.linkBox {
-  height: 45px;
-  width: 90px;
-  text-align: center;
-  padding: 15px;
-  color: black;
-}
-
-.linkBox:hover{
-  border-bottom: 3px solid #0F62FE;
-  transition: 0.6;
-  color: #0F62FE;
-}
 </style>
+

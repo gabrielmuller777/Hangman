@@ -1,11 +1,12 @@
 <template>
   <div id="app">
     <Queries/>
+      <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Queries from './components/Queries.vue'
+import Queries from "../src/components/Queries.vue";
 
 export default {
   name: 'App',

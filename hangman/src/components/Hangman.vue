@@ -6,7 +6,7 @@
       <label>Input word </label><input type="text" v-model="input" />
       <label>Hint </label><input type="text" v-model="hint" />
       
-      <v-btn small @click="start" color="error">START</v-btn>
+      <v-btn elevation="10" @click="start" color="#455A64">START</v-btn>
     </div>
 
     <!-- end Player 1 area -->
@@ -28,12 +28,12 @@
         <p>
           <label>Resposta: {{ input }}</label>
         </p>
-        <button @click="retry">Retry</button>
+        <v-btn elevation="10" color="#455A64" @click="retry">Retry</v-btn>
       </div>
       <div v-if="win">
         <label>You Win...</label>
         <p><label>Hope you die the next time!</label></p>
-        <button @click="retry">Reset</button>
+        <v-btn elevation="10" color="#455A64" @click="retry">Reset</v-btn>
       </div>
     </span>
 
@@ -43,8 +43,8 @@
       <p>
         <label>Hint: {{ hint }}</label>
       </p>
-      <p><input type="text" style="marginTop:20px" v-model="guess" /></p>
-      <button @click="letterInput">go</button>
+      <p><input type="text" style="marginTop:20px; width:50px; height:50px" v-model="guess" @keyup.enter="letterInput" /></p>
+      <label>Press Enter to send</label>
     </div>
   </div>
 </template>
@@ -108,8 +108,8 @@ export default {
   font-size: 50px;
 }
 #gamearea{
-  max-height: 400px !important;
-  background-color: black ;
+  max-height: 90%;
+  background-color: #424242;
 }
 .playerInput {
   display: flex;

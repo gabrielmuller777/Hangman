@@ -1,8 +1,16 @@
 <template>
   <div>
 
-      <h1>TESTE</h1>
-
+  <div class="searchBar">
+        <cv-dropdown class="drop" size="40px" placeholder="select client" :value="value" v-model="client">
+            <span v-for="(name,index) in clientList" :key="index">
+            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
+            </span>
+        </cv-dropdown>
+        <input class="txtinput" placeholder="Search..." v-model="keyword"/>
+        <button class="srcbtn" @click="getQuery">Search</button>
+    </div>
+    
     </div>
 
 </template>

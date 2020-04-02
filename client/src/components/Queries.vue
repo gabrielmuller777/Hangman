@@ -2,9 +2,9 @@
 <div>
     <div class="navbar">
       <div class="linksnav">
-        <span class="linkBox"><router-link class="routes" :to="{name: 'Search'}">Search</router-link></span>
-        <span class="linkBox"><router-link class="routes" :to="{name: 'Insert'}">Insert</router-link></span>
-        <span class="linkBox"><router-link class="routes" :to="{name: 'SQLSearch'}">SQL</router-link></span>
+        <router-link class="routes" :to="{name: 'Search'}">Search</router-link>
+        <router-link class="routes" :to="{name: 'Insert'}">Insert</router-link>
+        <router-link class="routes" :to="{name: 'SQLSearch'}">SQL</router-link>
       </div>
       <div class="header-right">
         <template slot="header-global" />
@@ -139,21 +139,33 @@ h1 {
   display: inline-block;
 }
 
-.linkBox:hover{
+ .router-link-exact-active{
   border-bottom: 4px solid #0F62FE;
   transition: border-width 0.2 ease-in-out !important;
   color: #0F62FE;
+ 
 }
-
 .routes{
   font-size: 16px;
   text-decoration: none;
   color: inherit;
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+  height: 43px;
+  padding: 14px;
+
+
+}
+
+.routes:hover {
+   border-bottom: 4px solid rgb(129, 129, 129);
+  transition: border-width 0.2 ease-in-out !important;
 }
 
 .linksnav{
-  width: 720px;
+  width: 300px;
   height: 45px;
   display: flex;
+  align-items: center;  
 }
 </style>

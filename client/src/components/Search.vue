@@ -63,14 +63,18 @@ export default {
   methods: {
     async getQuery() {
       this.isActive=true
-      var sql = `select * from mwx86642.gendata where "Customer" like '${this.client}' AND "Solution" like '%${this.keyword}%'`
+      var sql = `SELECT * FROM mwx86642.gendata WHERE UPPER("Problem_Description") LIKE UPPER('%${this.keyword}%')`
       try {
         this.logs = await queryService.getData(sql);
         this.isActive=false
       } catch (err) {
         this.error = err;
       }
-    }
+    }, //filter1
+    async getQuery2() {
+
+    },
+
   }
 };
 </script>

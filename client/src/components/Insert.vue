@@ -15,6 +15,20 @@
             <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
             </span>
         </cv-dropdown>
+    </div>
+    <div class="dropitem">
+        <cv-dropdown class="drop" size="40px" placeholder="select Type" :value="value" v-model="type">
+            <span v-for="(name,index) in typeList" :key="index">
+            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
+            </span>
+        </cv-dropdown>
+    </div>
+    <div class="dropitem">
+        <cv-dropdown class="drop" size="40px" placeholder="select Area" :value="value" v-model="area">
+            <span v-for="(name,index) in areaList" :key="index">
+            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
+            </span>
+        </cv-dropdown>
         <button class="srcbtn" @click="getQuery">Insert</button>
     </div>
     </div>
@@ -40,6 +54,10 @@ export default {
       keyword: "",
       component: "",
       componentList: [],
+      type: "",
+      typeList: [],
+      area: "",
+      areaList: [],
     };
   },
     async created() {
@@ -52,7 +70,8 @@ export default {
 
         }
       } catch (err) {
-        this.error = err;}
+        this.error = err;
+        }
 
     var sql_components= `select distinct "Component" from mwx86642.gendata`
     var components = []
@@ -78,10 +97,6 @@ export default {
         this.error = err;
       }
     }, //filter1
-    async getQuery2() {
-
-    },
-
   }
 };
 </script>

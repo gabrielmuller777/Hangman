@@ -83,6 +83,26 @@ export default {
       } catch (err) {
         this.error = err;
       }
+    var sql_types= `select distinct "Type" from mwx86642.gendata`
+    var types = []
+    try {
+        types = await queryService.getData(sql_types);
+        for(let idx in types) {
+          this.typeList.push(types[idx].Type)
+        }
+      } catch (err) {
+        this.error = err;
+      }
+          var sql_area= `select distinct "Area" from mwx86642.gendata`
+    var areas = []
+    try {
+        areas = await queryService.getData(sql_area);
+        for(let idx in areas) {
+          this.areaList.push(areas[idx].Area)
+        }
+      } catch (err) {
+        this.error = err;
+      }
       
   },
 

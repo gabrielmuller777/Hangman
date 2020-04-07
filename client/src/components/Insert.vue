@@ -1,7 +1,22 @@
 <template>
   <div>
   <div class="headerInsert"><h1> INSERT NEW LOG </h1> </div>
-
+  <div class="lines">
+  <div class="line">
+     <div class="dropitem">
+        <cv-dropdown class="drop" size="40px" placeholder="select Customer" :value="value" v-model="customer">
+            <span v-for="(name,index) in customerList" :key="index">
+            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
+            </span>
+        </cv-dropdown>
+    </div>  
+    <div class="dropitem">
+        <cv-dropdown class="drop" size="40px" placeholder="select Type" :value="value" v-model="type">
+            <span v-for="(name,index) in typeList" :key="index">
+            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
+            </span>
+        </cv-dropdown>
+    </div>     
     <div class="dropitem">
         <cv-dropdown class="drop" size="40px" placeholder="select Component" :value="value" v-model="component">
             <span v-for="(name,index) in componentList" :key="index">
@@ -10,27 +25,23 @@
         </cv-dropdown>
     </div>
     <div class="dropitem">
-        <cv-dropdown class="drop" size="40px" placeholder="select Customer" :value="value" v-model="customer">
-            <span v-for="(name,index) in customerList" :key="index">
-            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
-            </span>
-        </cv-dropdown>
+        <cv-combo-box class="drop" size="40px" placeholder="select Area" 
+          :auto-filter="true"
+          :options="areaList"
+          >
+        </cv-combo-box>
     </div>
-    <div class="dropitem">
-        <cv-dropdown class="drop" size="40px" placeholder="select Type" :value="value" v-model="type">
-            <span v-for="(name,index) in typeList" :key="index">
-            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
-            </span>
-        </cv-dropdown>
-    </div>
-    <div class="dropitem">
-        <cv-dropdown class="drop" size="40px" placeholder="select Area" :value="value" v-model="area">
-            <span v-for="(name,index) in areaList" :key="index">
-            <cv-dropdown-item style="padding:0px 42px 0px 16px" :value="name">{{name}}</cv-dropdown-item>
-            </span>
-        </cv-dropdown>
-        <button class="srcbtn" @click="getQuery">Insert</button>
-    </div>
+  </div>
+            <div class="line2">
+                <cv-text-area  class="txtboxes" placeholder="Request Number" v-model="requestnumber"/> 
+                <cv-text-area  class="txtboxes" placeholder="Summary" v-model="summary"/> 
+                <cv-text-area  class="txtboxes" placeholder="Problem Description" v-model="problemdescription"/> 
+                <cv-text-area  class="txtboxes" placeholder="Solution" v-model="solution"/> 
+            </div>
+
+        </div>
+                <button class="srcbtn" @click="getQuery">Insert</button>
+
     </div>
 
 
@@ -57,7 +68,7 @@ export default {
       type: "",
       typeList: [],
       area: "",
-      areaList: [],
+      areaList: [], 
     };
   },
     async created() {
@@ -93,23 +104,24 @@ export default {
       } catch (err) {
         this.error = err;
       }
-          var sql_area= `select distinct "Area" from mwx86642.gendata`
+    var sql_area= `select distinct "Area" from mwx86642.gendata`
     var areas = []
     try {
         areas = await queryService.getData(sql_area);
         for(let idx in areas) {
-          this.areaList.push(areas[idx].Area)
+          this.areaList.push({value:areas[idx].Area, label:areas[idx].Area, name: areas[idx].Area})
+          
         }
       } catch (err) {
         this.error = err;
       }
-      
+      console.log(this.areaList)
   },
 
   methods: {
     async getQuery() {
       this.isActive=true
-      var sql = `INSERT INTO mwx86642.gendata (Request_Number", "Customer", "Date", "Type", "User", "Component",	"Area",	"Summary", "Problem_Description",	"Solution") VALUES ('%${this.requestnumber}%', )`
+      var sql = `INSERT INTO mwx86642.gendata ("Request_Number", "Customer", "Date", "Type", "User", "Component",	"Area",	"Summary", "Problem_Description",	"Solution") VALUES ('${this.requestnumber}', '${this.customer}', '${Date().toJSON().slice(0,10)}', '${this.type}', '${this.user}', '${this.component}',	'${this.area}',	'${this.summary}', '${this.problemdescription}',	'${this.solution}' )`
       try {
         this.logs = await queryService.getData(sql);
         this.isActive=false
@@ -131,25 +143,10 @@ h1 {
   margin: auto;
   height: 50px;
 }
-.searchBar {
-  display: flex;
-  max-width: 1400px;
-  max-height: 40px;
-  margin: 10px auto 10px auto;
-  padding: 0 0 0 0;
 
-}
-.drop {
-  min-width: 200px !important;
-  height: 40px;
-  font-size: 15px;
-  margin: 0 0 0 0 !important;
-  display: inline-block;
-}
 .dropitem{
-  display: block;
   margin: 50px;
-  float: left;
+  max-width: 200px;
 }
 .txtinput {
   max-width: 200px !important;
@@ -170,5 +167,24 @@ h1 {
   color: white;
   font-size: 15px;
   text-align: center;
+  }
+
+.line{  
+width: 50%;
+}
+.line2{  
+width: 50%;
+float: right; 
+padding-top: 31px;
+padding-right: 50px;
+}
+.lines{
+ display: flex;
+}
+
+.txtboxes{
+  display: block;
+
+
 }
 </style>

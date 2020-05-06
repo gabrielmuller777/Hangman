@@ -1,9 +1,11 @@
 <template>
-  <v-app id="app">
-    <img src="./assets/bm_logo.png" alt="logo" style="width: 500px; margin:20px auto 20px auto">
-    <p><label id="title">HANGMAN</label></p>
+  <div id="app">
+    <div id="nav">
+      <img class="logo" src="./assets/bm_logo.png" alt="logo">
+      <label id="title">HANGMAN</label>
+    </div>
     <Hangman/>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -20,28 +22,39 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  background-color: #424242;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 90%;
   width: 90%;
-  max-height: 90vh;
-  color: white;
-}
-html{
-  width: 100%;
   max-height: 100%;
+  height: 100%;
 }
-body{
+html, body{
+  min-width: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 100%;
-  max-height: 100%;
-  background-color: black;
+}
+#nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 90%;
+  height: 70px;
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+.logo {
+  height: 50px;
+  margin: 20px 50px;
 }
 #title {
-  font-size: 50px;
+  margin: 30px 10px 10px 0;
+  font-size: 40px;
 }
 </style>

@@ -1,139 +1,233 @@
 <template>
-  <div id="gamearea">
-    <!-- Player 1 screen -->
-    <div class="playerInput" v-if="player1">
-      <label>Player 1</label>
-      <label>Input word </label><input type="text" v-model="input" />
-      <label>Hint </label><input type="text" v-model="hint" />
-      
-      <v-btn elevation="10" @click="start" color="#455A64">START</v-btn>
-    </div>
-
-    <!-- end Player 1 area -->
-    <span v-if="!player1">
-      <img v-if="life == 5" class="stick" src="../assets/s5.png" alt="sm" />
-      <img v-if="life == 4" class="stick" src="../assets/s4.png" alt="sm" />
-      <img v-if="life == 3" class="stick" src="../assets/s3.png" alt="sm" />
-      <img v-if="life == 2" class="stick" src="../assets/s2.png" alt="sm" />
-      <img v-if="life == 1" class="stick" src="../assets/s1.png" alt="sm" />
-      <h1>Body Parts: {{ life }}</h1>
-      <div v-if="!gameOver && !player1 && !win" style="margin-bottom:20px">
-        <span v-for="(char, index) in word" :key="index">
-          <span class="word">{{ char }} </span>
+  <div id="game">
+    <div class="sidebar">
+      <label class="sideitem">New Post</label>
+      <label class="sideitem">Your Name</label>
+      <input class="sideitem" type="text" v-model="input.user">
+      <label class="sideitem">Word:</label>
+      <input class="sideitem" type="text" v-model="input.word">
+      <label class="sideitem">Hint:</label>
+      <input class="sideitem" type="text" v-model="input.hint">
+      <button class="btn send" @click="sendPost">Send</button>
+      <hr>
+      <label class="sideitem">Users Posts</label>
+      <div class="sidebar posts">
+        <span class="sideitem" v-for="(item, index) in users" :key="index">
+          <label @click="selecteduser = item.user, select()" >{{item.user}}: {{item.posts}}</label>
         </span>
       </div>
-      <!-- GAME OVER -->
-      <div v-if="gameOver">
-        <p><label>SE FUDEU! </label></p>
-        <p>
-          <label>Resposta: {{ input }}</label>
-        </p>
-        <v-btn elevation="10" color="#455A64" @click="retry">Retry</v-btn>
+    </div>
+    <div class="main">
+      <label v-if="!userSelected" id="words">Select a post to start...</label>
+      <div class="menu" v-if="userSelected">
+        <h1>USER: {{selecteduser}}</h1>
+        <span v-for="(item, index) in selection" :key="index">
+          <div :class="index % 2 == 0 ? 'select' : 'selectodd'">
+            <h2 style="margin-left:10px">HINT: {{item.hint}}</h2>
+            <button class="btn start" @click="start(item.word)">Start</button>
+          </div>
+        </span>
       </div>
-      <div v-if="win">
-        <label>You Win...</label>
-        <p><label>Hope you die the next time!</label></p>
-        <v-btn elevation="10" color="#455A64" @click="retry">Reset</v-btn>
+      <div class="gamearea">
+        <h1 style="margin-bottom:100px">LIFE: {{life}}</h1>
+        <div style="margin-bottom:50px">
+          <span v-for="(char, index) in challenge" :key="index">
+          <span style="font-size:50px;">{{char}} </span>
+        </span>
+        </div>
+        <input 
+          type="text" 
+          style="height: 50px;width:50px;backgroundColor:rgba(255, 255, 255, 0.2);border:0;border-bottom:solid 2px gray; border-radius:5px; text-align:center;font-size:40px;color:white"
+          v-model="guess"
+          @keyup.enter="letterInput"
+          >
       </div>
-    </span>
-
-    <!-- Player 2 -->
-    <div v-if="!player1 && !gameOver && !win">
-      <label>Player 2</label>
-      <p>
-        <label>Hint: {{ hint }}</label>
-      </p>
-      <p><input type="text" style="marginTop:20px; width:50px; height:50px" v-model="guess" @keyup.enter="letterInput" /></p>
-      <label>Press Enter to send</label>
     </div>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
-  data() {
+  data () {
     return {
-      input: "",
-      hint: "",
-      word: [],
-      guess: "",
+      input: {
+        user: '',
+        word: '',
+        hint: ''
+      },
       life: 5,
-      gameOver: false,
-      win: false,
-      player1: true
-    };
+      selectedword: '',
+      guess: '',
+      selection: [],
+      posts: [],
+      selecteduser: '',
+      users: [],
+      challenge: [],
+      userSelected: false
+    }
   },
   methods: {
-    letterInput() {
-      for (let index in this.input) {
-        if (this.input[index] === this.guess) {
-          this.word[index] = this.guess;
+    sendPost() {
+      firebase.database().ref('hangman/posts/' + this.input.user).push({
+        user: this.input.user,
+        word: this.input.word,
+        hint: this.input.hint
+      })
+      this.input.user = ''
+      this.input.word = ''
+      this.input.hint = ''
+      this.select()
+    },
+    select() {
+      this.selection = []
+      for(let idx in this.posts) {
+        let result = Object.values(this.posts[idx][this.selecteduser]);
+        result.forEach(item => {
+          this.selection.push(item)
+        })
+      }
+      this.userSelected = true
+    },
+    start(word) {
+      this.selectedword = word
+      for(let idx in word) {
+        if(word[idx] === this.guess) {
+          this.challenge.push(word[idx]);
+        } else {
+          this.challenge.push("_")
         }
       }
-      if (!this.input.includes(this.guess)) {
+    },
+    letterInput() {
+      for(let idx in this.selectedword) {
+        if(this.selectedword[idx] === this.guess) {
+          this.challenge[idx] = this.guess;
+        }
+      }
+      if(!this.selectedword.includes(this.guess)) {
         this.life -= 1;
       }
-      this.guess = "";
-    },
-    retry() {
-      window.location.reload();
-    },
-    start() {
-      for (let index in this.input) {
-        if (this.input[index] === this.guess) {
-          this.word.push(this.input[index]);
-        } else {
-          this.word.push("_");
-        }
-      }
-      if(this.input === '') {
-        alert('please type something you idiot!')
-      }else {
-        this.player1 = false;
-      }
+      this.guess = ""
     }
   },
-  updated() {
-    if (!this.word.includes('_') && !this.player1) {
-      this.win = true;
-    } else if (this.life === 0) {
-      this.gameOver = true
-    }
+  mounted () {
+    firebase.database().ref('hangman/posts/').on('value', snap => {
+      this.users = []
+      this.posts = []
+      let result = snap.val()
+      this.posts.push(result)
+      for(let idx in result) {
+        let entriesCount = Object.entries(result[idx])
+        this.users.push({
+          user: idx,
+          posts: entriesCount.length
+        })
+      }
+    })
   }
-};
+}
 </script>
 
 <style scoped>
-.word {
-  font-size: 50px;
-}
-#gamearea{
-  max-height: 90%;
-  background-color: #424242;
-}
-.playerInput {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-  height: 250px;
-  align-items: center;
-  justify-content: space-between;
-  margin: auto;
-}
-input {
-  height: 30px;
-  font-size: 20px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  text-align: center;
-  border: none;
-  border-bottom: 1px solid brown;
-}
-label {
-  font-size: 20px;
-  color: white;
-}
-.stick {
-  height: 200px;
-}
+  #game {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: auto;
+    min-width: 90%;
+    width: 90%;
+    height: 100%;
+    min-height: 100%;
+    background-color: black;
+    color: white;
+  }
+  hr {
+    width: 100%;
+  }
+  .sideitem {
+    margin: 10px;
+  }
+  .btn {
+    margin: 10px;
+    color: white;
+    background-color: rgb(0, 128, 96);
+    border:none;
+    height: 25px;
+    width: 100px;
+    border-radius: 5px;
+  }
+  .btn.start {
+    position: absolute;
+    right: 0;
+    top: 10px;
+  }
+  #words {
+    font-size: 30px;
+    margin: 20px;
+  }
+  .main {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: flex-start;
+    background-color: rgb(75, 87, 100);
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    min-height: 100%;
+  }
+  .menu {
+    background-color: rgb(56, 70, 70);
+    max-height: 100%;
+    height: 100vh;
+    display: flex;
+    width: 500px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items:flex-start;
+    position: relative;
+  }
+  .gamearea {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    background-color: tomato;
+  }
+  .select {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+    width: 500px;
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  .selectodd {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+    width: 500px;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 200px;
+    max-height: 100%;
+    height: 100vh;
+    background-color: rgb(66, 66, 66);
+  }
+  .sidebar.posts {
+    align-items: flex-start;
+  }
 </style>

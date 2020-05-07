@@ -46,7 +46,7 @@
           @keyup.enter="letterInput"
           placeholder="type here"
           >
-          <h3>Hit Enter to Send</h3>
+          <h3 v-if="choice && !win && !lose">Hit Enter to Send</h3>
           <h1 v-if="win">YOU WIN!</h1>
           <h1 v-if="lose">YOU LOSE!</h1>
       </div>

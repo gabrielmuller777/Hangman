@@ -13,14 +13,14 @@
       <label class="sideitem">Users Posts</label>
       <div class="sidebar posts">
         <span class="sideitem" v-for="(item, index) in users" :key="index">
-          <label @click="selecteduser = item.user, select()" >{{item.user}}: {{item.posts}}</label>
+          <label @click="selecteduser = item.user, select()" style="font-size:20px">{{item.user}}: {{item.posts}}</label>
         </span>
       </div>
     </div>
     <div class="main">
       <label v-if="!userSelected" id="words">Select a post to start...</label>
       <div class="menu" v-if="userSelected">
-        <h1>USER: {{selecteduser}}</h1>
+        <h2>Challenges from {{selecteduser}}</h2>
         <span v-for="(item, index) in selection" :key="index">
           <div :class="index % 2 == 0 ? 'select' : 'selectodd'">
             <h2 style="margin-left:10px">HINT: {{item.hint}}</h2>
@@ -29,18 +29,26 @@
         </span>
       </div>
       <div class="gamearea">
-        <h1 style="margin-bottom:100px">LIFE: {{life}}</h1>
+        <div class="score">
+          <h2 style="margin-left:20px">WIN: {{score.wins}}</h2><h2 style="margin-left:50px">LOSE: {{score.loses}}</h2>
+        </div>
+        <h1 v-if="choice" style="margin-bottom:100px">LIFE: {{life}}</h1>
         <div style="margin-bottom:50px">
           <span v-for="(char, index) in challenge" :key="index">
           <span style="font-size:50px;">{{char}} </span>
         </span>
         </div>
-        <input 
+        <input
+          v-if="choice && !win && !lose" 
           type="text" 
-          style="height: 50px;width:50px;backgroundColor:rgba(255, 255, 255, 0.2);border:0;border-bottom:solid 2px gray; border-radius:5px; text-align:center;font-size:40px;color:white"
+          style="height: 50px;width:200px;backgroundColor:rgba(255, 255, 255, 0.2);border:0;border-bottom:solid 2px gray; border-radius:5px; text-align:center;font-size:40px;color:white"
           v-model="guess"
           @keyup.enter="letterInput"
+          placeholder="type here"
           >
+          <h3>Hit Enter to Send</h3>
+          <h1 v-if="win">YOU WIN!</h1>
+          <h1 v-if="lose">YOU LOSE!</h1>
       </div>
     </div>
   </div>
@@ -56,6 +64,10 @@ export default {
         word: '',
         hint: ''
       },
+      score: {
+        wins: 0,
+        loses: 0
+      },
       life: 5,
       selectedword: '',
       guess: '',
@@ -64,6 +76,9 @@ export default {
       selecteduser: '',
       users: [],
       challenge: [],
+      win: false,
+      lose: false,
+      choice: false,
       userSelected: false
     }
   },
@@ -90,6 +105,9 @@ export default {
       this.userSelected = true
     },
     start(word) {
+      this.lose = false
+      this.win = false
+      this.challenge = []
       this.selectedword = word
       for(let idx in word) {
         if(word[idx] === this.guess) {
@@ -98,6 +116,7 @@ export default {
           this.challenge.push("_")
         }
       }
+      this.choice = true
     },
     letterInput() {
       for(let idx in this.selectedword) {
@@ -105,10 +124,17 @@ export default {
           this.challenge[idx] = this.guess;
         }
       }
-      if(!this.selectedword.includes(this.guess)) {
+      if(!this.challenge.includes('_')) {
+        this.win = true;
+        this.score.wins += 1;
+      } else if(!this.challenge.includes(this.guess)) {
         this.life -= 1;
+        if(this.life === 0) {
+          this.lose = true
+          this.score.loses += 1
+        }
       }
-      this.guess = ""
+      this.guess = "";
     }
   },
   mounted () {
@@ -125,7 +151,7 @@ export default {
         })
       }
     })
-  }
+  },
 }
 </script>
 
@@ -158,6 +184,10 @@ export default {
     width: 100px;
     border-radius: 5px;
   }
+  .btn.send {
+    height: 45px;
+    background-color: darkorange;
+  }
   .btn.start {
     position: absolute;
     right: 0;
@@ -179,7 +209,7 @@ export default {
     min-height: 100%;
   }
   .menu {
-    background-color: rgb(56, 70, 70);
+    background-color:rgb(34, 41, 56);
     max-height: 100%;
     height: 100vh;
     display: flex;
@@ -195,7 +225,16 @@ export default {
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    background-color: tomato;
+    background-color: rgb(0, 0, 0);
+  }
+  .score {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: darkorange;
+    width: 100%;
+    height: 80px;
   }
   .select {
     position: relative;
@@ -225,7 +264,7 @@ export default {
     width: 200px;
     max-height: 100%;
     height: 100vh;
-    background-color: rgb(66, 66, 66);
+    background-color: rgb(36, 36, 36);
   }
   .sidebar.posts {
     align-items: flex-start;

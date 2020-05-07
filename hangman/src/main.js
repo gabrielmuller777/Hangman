@@ -6,14 +6,14 @@ import * as firebase from 'firebase'
 Vue.config.productionTip = false
 
 var firebaseConfig = {
-  apiKey: "AIzaSyDugZTjqafz81FJLRJfE2KIwYxE-tzA6vI",
-  authDomain: "blackmule-dev.firebaseapp.com",
-  databaseURL: "https://blackmule-dev.firebaseio.com",
-  projectId: "blackmule-dev",
-  storageBucket: "blackmule-dev.appspot.com",
-  messagingSenderId: "236901595469",
-  appId: "1:236901595469:web:9b2a880bdec3a506325f04",
-  measurementId: "G-JG5ZR47TBP"
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+  databaseURL: process.env.VUE_APP_DATABASE_URL,
+  projectId: process.env.VUE_APP_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.VUE_APP_MESSAGINGSENDERID,
+  appId: process.env.VUE_APP_APPID,
+  measurementId: process.env.VUE_APP_MEASUREMENTID
 };
 
 firebase.initializeApp(firebaseConfig);

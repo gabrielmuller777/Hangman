@@ -3,17 +3,19 @@
     <div class="sidebar">
       <label class="sideitem">New Post</label>
       <label class="sideitem">Your Name</label>
-      <input class="sideitem" type="text" v-model="input.user">
+      <input class="sideitem" type="text" v-model="input.user" style="text-transform:uppercase">
       <label class="sideitem">Word:</label>
-      <input class="sideitem" type="text" v-model="input.word">
+      <input class="sideitem" type="text" v-model="input.word" style="text-transform:uppercase">
+      <label class="sideitem">Topic:</label>
+      <input class="sideitem" type="text" v-model="input.topic" style="text-transform:uppercase">
       <label class="sideitem">Hint:</label>
-      <input class="sideitem" type="text" v-model="input.hint">
-      <button class="btn send" @click="sendPost">Send</button>
+      <input class="sideitem" type="text" v-model="input.hint" style="text-transform:uppercase">
+      <button class="btn send" @click="send">Send</button>
       <hr>
       <label class="sideitem">Users Posts</label>
       <div class="sidebar posts">
         <span class="sideitem" v-for="(item, index) in users" :key="index">
-          <label @click="selecteduser = item.user, select()" style="font-size:20px">{{item.user}}: {{item.posts}}</label>
+          <label @click="selecteduser = item.user, select()" style="font-size:20px"><span style="color:darkorange">{{item.user}}:</span> {{item.posts}}</label>
         </span>
       </div>
     </div>
@@ -23,7 +25,8 @@
         <h2>Challenges from {{selecteduser}}</h2>
         <span v-for="(item, index) in selection" :key="index">
           <div :class="index % 2 == 0 ? 'select' : 'selectodd'">
-            <h2 style="margin-left:10px">HINT: {{item.hint}}</h2>
+            <span style="width:220px;display:inline-flex"><h5 style="margin-left:10px;color:darkorange">TOPIC: </h5><h5 style="margin-left:10px;"> {{item.topic}}</h5></span>
+            <div style="background-color:rgba(255,255,255,0.1); width:200px;display:inline-flex"><h5 style="margin-left:10px;color:darkorange">HINT: </h5><h5 style="margin-left:10px;">{{item.hint}}</h5></div>
             <button class="btn start" @click="start(item.word)">Start</button>
           </div>
         </span>
@@ -41,7 +44,7 @@
         <input
           v-if="choice && !win && !lose" 
           type="text" 
-          style="height: 50px;width:200px;backgroundColor:rgba(255, 255, 255, 0.2);border:0;border-bottom:solid 2px gray; border-radius:5px; text-align:center;font-size:40px;color:white"
+          style="text-transform:uppercase;height: 50px;width:200px;backgroundColor:rgba(255, 255, 255, 0.2);border:0;border-bottom:solid 2px gray; border-radius:5px; text-align:center;font-size:30px;color:white"
           v-model="guess"
           @keyup.enter="letterInput"
           placeholder="type here"
@@ -62,6 +65,7 @@ export default {
       input: {
         user: '',
         word: '',
+        topic: '',
         hint: ''
       },
       score: {
@@ -83,15 +87,21 @@ export default {
     }
   },
   methods: {
-    sendPost() {
-      firebase.database().ref('hangman/posts/' + this.input.user).push({
-        user: this.input.user,
-        word: this.input.word,
-        hint: this.input.hint
-      })
+    send() {
+      if(this.input.user && this.input.word && this.input.hint && this.input.topic !== '') {
+        firebase.database().ref('hangman/posts/' + this.input.user.toUpperCase()).push({
+        user: this.input.user.toUpperCase(),
+        word: this.input.word.toUpperCase(),
+        hint: this.input.hint.toUpperCase(),
+        topic: this.input.topic.toUpperCase()
+        })
+      } else {
+        alert('please fill all fields!')
+      }
       this.input.user = ''
       this.input.word = ''
       this.input.hint = ''
+      this.input.topic = ''
       this.select()
     },
     select() {
@@ -105,6 +115,7 @@ export default {
       this.userSelected = true
     },
     start(word) {
+      this.life = 5
       this.lose = false
       this.win = false
       this.challenge = []
@@ -119,9 +130,10 @@ export default {
       this.choice = true
     },
     letterInput() {
+      this.guess = this.guess.toUpperCase()
       for(let idx in this.selectedword) {
-        if(this.selectedword[idx] === this.guess) {
-          this.challenge[idx] = this.guess;
+        if(this.selectedword[idx].normalize("NFD").replace(/[\u0300-\u036f]/g, "") === this.guess) {
+          this.challenge[idx] = this.selectedword[idx];
         }
       }
       if(!this.challenge.includes('_')) {
@@ -157,7 +169,7 @@ export default {
 
 <style scoped>
   #game {
-    display: flex;
+    display:flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
@@ -189,9 +201,7 @@ export default {
     background-color: darkorange;
   }
   .btn.start {
-    position: absolute;
-    right: 0;
-    top: 10px;
+    width:60px
   }
   #words {
     font-size: 30px;
